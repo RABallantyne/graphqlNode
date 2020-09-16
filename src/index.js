@@ -2,6 +2,35 @@ import { GraphQLServer } from 'graphql-yoga';
 
 // Scalar types: String, Boolean, Int, Float, ID
 
+// 1. Set up an array of 3 dummy posts
+// 2. Set up a posts query and resolver that returns all posts
+// 3. test the query
+// 4. add an arg that returns posts containing query string in title OR body
+// 5. run sample queries to test
+
+//demo post data
+
+const posts = [
+  {
+    id: '1',
+    title: 'A post about things',
+    body: 'qqqqqqq?',
+    published: true,
+  },
+  {
+    id: '2',
+    title: 'A different post about other things',
+    body: 'I really do care, and you should too',
+    published: false,
+  },
+  {
+    id: '3',
+    title: 'Zimbabwe is a great country!',
+    body: 'Pretty sure there are Africans there or something like that',
+    published: true,
+  },
+];
+
 //demo user data
 
 const users = [
@@ -28,6 +57,7 @@ const users = [
 const typeDefs = `
   type Query {
     users(query: String): [User!]!
+    posts(query: String):[Post!]!
     me: User!
     post: Post!
   }
@@ -65,6 +95,18 @@ const resolvers = {
         body: 'lorem ipsum blah blah blah weeeeeee haaaaaaaa derrrr',
         published: false,
       };
+    },
+    posts(parent, args, ctx, info) {
+      if (!args.query) {
+        return posts;
+      }
+      return posts.filter((post) => {
+        if (
+          post.title.toLowerCase().includes(args.query.toLowerCase()) ||
+          post.body.toLowerCase().includes(args.query.toLowerCase())
+        )
+          return post;
+      });
     },
     users(parent, args, ctx, info) {
       if (!args.query) {
