@@ -40,11 +40,10 @@ const resolvers = {
     add(parent, args, ctx, info) {
       if (args.numbers.length === 0) {
         return 0;
-      } else {
-        return args.numbers.reduce((acc, curr) => {
-          return acc + curr;
-        });
       }
+      return args.numbers.reduce((acc, curr) => {
+        return acc + curr;
+      });
     },
     grades(parent, args, ctx, info) {
       return [88, 99, 57];
