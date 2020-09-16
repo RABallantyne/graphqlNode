@@ -2,34 +2,42 @@ import { GraphQLServer } from 'graphql-yoga';
 
 // Scalar types: String, Boolean, Int, Float, ID
 
+// Create query def and resolver for each:
+
+// title - string, product name
+// price - float
+// releaseYear - int (optional)
+// rating - float (optional)
+// inStock - boolean
+
 //Type definitions (schema)
 const typeDefs = `
   type Query {
-    id: ID!
-    name: String!
-    age: Int!
-    employed: Boolean!
-    gpa: Float
+    title: String!
+    price: Float!
+    releaseYear: Int
+    rating: Float
+    inStock: Boolean!
   }
 `;
 
 //Resolvers
 const resolvers = {
   Query: {
-    id() {
-      return 'abc123';
+    title() {
+      return 'Super Thing';
     },
-    name() {
-      return 'Bobbo B';
+    price() {
+      return 4.82;
     },
-    age() {
-      return 36;
+    releaseYear() {
+      return 2019;
     },
-    employed() {
+    rating() {
+      return null;
+    },
+    inStock() {
       return true;
-    },
-    gpa() {
-      return 3.67;
     },
   },
 };
