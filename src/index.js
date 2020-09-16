@@ -57,7 +57,7 @@ const users = [
 const typeDefs = `
   type Query {
     users(query: String): [User!]!
-    posts(query: String):[Post!]!
+    posts(query: String, published: Boolean):[Post!]!
     me: User!
     post: Post!
   }
@@ -97,15 +97,16 @@ const resolvers = {
       };
     },
     posts(parent, args, ctx, info) {
-      if (!args.query) {
+      if (!args.query && args.published === undefined) {
         return posts;
       }
-      return posts.filter((post) => {
-        return (
-          post.title.toLowerCase().includes(args.query.toLowerCase()) ||
-          post.body.toLowerCase().includes(args.query.toLowerCase())
-        );
-      });
+      return args.published === undefined
+        ? posts.filter(
+            (post) =>
+              post.title.toLowerCase().includes(args.query.toLowerCase()) ||
+              post.body.toLowerCase().includes(args.query.toLowerCase())
+          )
+        : posts.filter((post) => post.published === args.published);
     },
     users(parent, args, ctx, info) {
       if (!args.query) {
