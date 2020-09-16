@@ -34,7 +34,7 @@ const resolvers = {
       return 2019;
     },
     rating() {
-      return null;
+      return 5;
     },
     inStock() {
       return true;
