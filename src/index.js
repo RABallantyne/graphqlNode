@@ -1,1 +1,3 @@
-console.log('hi there dude');
+import { message } from './myModule';
+
+console.log(message);
