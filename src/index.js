@@ -2,14 +2,34 @@ import { GraphQLServer } from 'graphql-yoga';
 
 // Scalar types: String, Boolean, Int, Float, ID
 
+//demo user data
+
+const users = [
+  {
+    id: '1',
+    name: 'Rob',
+    email: 'bobbo@example.com',
+    age: 36,
+  },
+  {
+    id: '2',
+    name: 'Lola',
+    email: 'lola@doggo.com',
+  },
+  {
+    id: '3',
+    name: 'Uma',
+    email: 'uma@borkin.com',
+    age: 5,
+  },
+];
+
 //Type definitions (schema)
 const typeDefs = `
   type Query {
-   greeting(name: String, position: String): String!
-   add(numbers: [Float!]!): Float!
-   grades: [Int!]!
-   me: User!
-   post: Post!
+    users(query: String): [User!]!
+    me: User!
+    post: Post!
   }
 
   type User {
@@ -30,24 +50,6 @@ const typeDefs = `
 //Resolvers
 const resolvers = {
   Query: {
-    greeting(parent, args, ctx, info) {
-      if (args.name && args.position) {
-        return `Hello, ${args.name}, you are a great ${args.position}`;
-      } else {
-        return 'Hello';
-      }
-    },
-    add(parent, args, ctx, info) {
-      if (args.numbers.length === 0) {
-        return 0;
-      }
-      return args.numbers.reduce((acc, curr) => {
-        return acc + curr;
-      });
-    },
-    grades(parent, args, ctx, info) {
-      return [88, 99, 57];
-    },
     me() {
       return {
         id: '123abc',
@@ -63,6 +65,14 @@ const resolvers = {
         body: 'lorem ipsum blah blah blah weeeeeee haaaaaaaa derrrr',
         published: false,
       };
+    },
+    users(parent, args, ctx, info) {
+      if (!args.query) {
+        return users;
+      }
+      return users.filter((user) => {
+        return user.name.toLowerCase().includes(args.query.toLowerCase());
+      });
     },
   },
 };
