@@ -20,13 +20,13 @@ const posts = [
   {
     id: '2',
     title: 'A different post about other things',
-    body: 'I really do care, and you should too',
+    body: 'I really do care, and you should too weee',
     published: false,
   },
   {
     id: '3',
     title: 'Zimbabwe is a great country!',
-    body: 'Pretty sure there are Africans there or something like that',
+    body: 'Pretty sure there are Africans there or something like that weeee',
     published: true,
   },
 ];
@@ -101,11 +101,10 @@ const resolvers = {
         return posts;
       }
       return posts.filter((post) => {
-        if (
+        return (
           post.title.toLowerCase().includes(args.query.toLowerCase()) ||
           post.body.toLowerCase().includes(args.query.toLowerCase())
-        )
-          return post;
+        );
       });
     },
     users(parent, args, ctx, info) {
