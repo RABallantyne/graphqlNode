@@ -1,11 +1,15 @@
 import { GraphQLServer } from 'graphql-yoga';
 
+//add location and bio query...
+
 //Type definitions (schema)
 
 const typeDefs = `
   type Query {
     hello: String!
     name: String!
+    location: String!
+    bio: String!
   }
 `;
 
@@ -18,6 +22,12 @@ const resolvers = {
     },
     name() {
       return 'Bobby B';
+    },
+    location() {
+      return 'Denver, CO';
+    },
+    bio() {
+      return 'A guy learning GraphQL!';
     },
   },
 };
