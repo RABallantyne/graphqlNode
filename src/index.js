@@ -126,6 +126,34 @@ const resolvers = {
     },
 
     createComment(parent, args, ctx, info) {
+      const userExists = users.some((user) => {
+        return user.id === args.author;
+      });
+
+      if (!userExists) {
+        throw new Error('User not found');
+      }
+
+      const postExists = posts.some((post) => {
+        return post.id === args.post;
+      });
+
+      if (!postExists) {
+        throw new Error('Post does not exist');
+      }
+
+      const post = posts.filter((post) => {
+        return post.id === args.post;
+      });
+      console.log(post[0].published);
+
+      if (post[0].published === false) {
+        throw new Error('Post not published');
+      }
+
+      // if (!postPublished) {
+      //   throw new Error('Post is not published');
+      // }
       const comment = {
         id: uuidv4(),
         content: args.content,
