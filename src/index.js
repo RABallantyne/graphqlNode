@@ -1,57 +1,7 @@
 import { GraphQLServer } from 'graphql-yoga';
+import { users, posts, me, post } from '../data/data';
 
 // Scalar types: String, Boolean, Int, Float, ID
-
-// 1. Set up an array of 3 dummy posts
-// 2. Set up a posts query and resolver that returns all posts
-// 3. test the query
-// 4. add an arg that returns posts containing query string in title OR body
-// 5. run sample queries to test
-
-//demo post data
-
-const posts = [
-  {
-    id: '1',
-    title: 'A post about things',
-    body: 'qqqqqqq?',
-    published: true,
-  },
-  {
-    id: '2',
-    title: 'A different post about other things',
-    body: 'I really do care, and you should too weee',
-    published: false,
-  },
-  {
-    id: '3',
-    title: 'Zimbabwe is a great country!',
-    body: 'Pretty sure there are Africans there or something like that weeee',
-    published: true,
-  },
-];
-
-//demo user data
-
-const users = [
-  {
-    id: '1',
-    name: 'Rob',
-    email: 'bobbo@example.com',
-    age: 36,
-  },
-  {
-    id: '2',
-    name: 'Lola',
-    email: 'lola@doggo.com',
-  },
-  {
-    id: '3',
-    name: 'Uma',
-    email: 'uma@borkin.com',
-    age: 5,
-  },
-];
 
 //Type definitions (schema)
 const typeDefs = `
@@ -60,6 +10,14 @@ const typeDefs = `
     posts(query: String, published: Boolean):[Post!]!
     me: User!
     post: Post!
+    author: [User!]!
+  }
+
+  type Comment {
+    id: ID!
+    content: String!
+    author: User!
+    post: Post!
   }
 
   type User {
@@ -67,6 +25,7 @@ const typeDefs = `
     name: String!
     email: String!
     age: Int
+    posts: [Post!]!
   }
 
   type Post {
@@ -74,6 +33,7 @@ const typeDefs = `
     title: String!
     body: String!
     published: Boolean!
+    author: User!
   }
 `;
 
@@ -81,20 +41,13 @@ const typeDefs = `
 const resolvers = {
   Query: {
     me() {
-      return {
-        id: '123abc',
-        name: 'Bobbo B',
-        email: 'email@email.com',
-        age: 48,
-      };
+      return me;
     },
     post() {
-      return {
-        id: 'post-1',
-        title: 'A really interesting post',
-        body: 'lorem ipsum blah blah blah weeeeeee haaaaaaaa derrrr',
-        published: false,
-      };
+      return post;
+    },
+    author() {
+      return;
     },
     posts(parent, args, ctx, info) {
       if (!args.query && args.published === undefined) {
@@ -114,6 +67,20 @@ const resolvers = {
       }
       return users.filter((user) => {
         return user.name.toLowerCase().includes(args.query.toLowerCase());
+      });
+    },
+  },
+  Post: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author;
+      });
+    },
+  },
+  User: {
+    posts(parent, args, ctx, info) {
+      return posts.filter((post) => {
+        return post.author === parent.id;
       });
     },
   },
