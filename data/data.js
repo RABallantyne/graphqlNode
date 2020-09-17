@@ -41,18 +41,18 @@ const posts = [
 
 const users = [
   {
-    id: '1',
+    id: '10',
     name: 'Rob',
     email: 'bobbo@example.com',
     age: 36,
   },
   {
-    id: '2',
+    id: '20',
     name: 'Lola',
     email: 'lola@doggo.com',
   },
   {
-    id: '3',
+    id: '30',
     name: 'Uma',
     email: 'uma@borkin.com',
     age: 5,
@@ -61,22 +61,28 @@ const users = [
 
 const comments = [
   {
-    id: 10,
+    id: 110,
     content: 'what a post!',
-    author: '1',
+    author: '10',
     post: '1',
   },
   {
-    id: 11,
+    id: 111,
     content: 'poop post!',
-    author: '2',
+    author: '20',
     post: '1',
   },
   {
-    id: 12,
+    id: 112,
     content: 'pee peeeee post!',
-    author: '3',
+    author: '30',
     post: '3',
+  },
+  {
+    id: 113,
+    content: 'wonky doo dah!',
+    author: '20',
+    post: '2',
   },
 ];
 

@@ -14,13 +14,6 @@ const typeDefs = `
     comments:[Comment!]!
   }
 
-  type Comment {
-    id: ID!
-    content: String!
-    author: User!
-    post: Post!
-  }
-
   type User {
     id: ID!
     name: String!
@@ -37,6 +30,13 @@ const typeDefs = `
     published: Boolean!
     author: User!
     comments: [Comment!]!
+  }
+
+  type Comment {
+    id: ID!
+    content: String!
+    author: User!
+    post: Post!
   }
 `;
 
@@ -76,30 +76,7 @@ const resolvers = {
       return comments;
     },
   },
-  Comment: {
-    author(parent, args, ctx, info) {
-      return users.find((user) => {
-        return user.id === parent.author;
-      });
-    },
-    post(parent, args, ctx, info) {
-      return posts.find((post) => {
-        return post.id === parent.post;
-      });
-    },
-  },
-  Post: {
-    author(parent, args, ctx, info) {
-      return users.find((user) => {
-        return user.id === parent.author;
-      });
-    },
-    comments(parent, args, ctx, info) {
-      return comments.filter((comment) => {
-        return comment.post === parent.id;
-      });
-    },
-  },
+
   User: {
     posts(parent, args, ctx, info) {
       return posts.filter((post) => {
@@ -112,6 +89,32 @@ const resolvers = {
       });
     },
   },
+
+  Post: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author;
+      });
+    },
+    comments(parent, args, ctx, info) {
+      return comments.filter((comment) => {
+        return comment.post === parent.id;
+      });
+    },
+  },
+
+  Comment: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author;
+      });
+    },
+    post(parent, args, ctx, info) {
+      return posts.find((post) => {
+        return post.id === parent.post;
+      });
+    },
+  },
 };
 
 const server = new GraphQLServer({
@@ -120,5 +123,5 @@ const server = new GraphQLServer({
 });
 
 server.start(() => {
-  console.log('Server started!');
+  console.log('Server started ya dumby!');
 });
