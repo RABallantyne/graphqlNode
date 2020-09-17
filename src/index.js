@@ -14,6 +14,10 @@ const typeDefs = `
     comments:[Comment!]!
   }
 
+  type Mutation {
+    createUser(name: String!, email: String!, age: Int): User!
+  }
+
   type User {
     id: ID!
     name: String!
@@ -49,9 +53,7 @@ const resolvers = {
     post() {
       return post;
     },
-    author() {
-      return;
-    },
+
     posts(parent, args, ctx, info) {
       if (!args.query && args.published === undefined) {
         return posts;
@@ -74,6 +76,12 @@ const resolvers = {
     },
     comments(parent, args, ctx, info) {
       return comments;
+    },
+  },
+
+  Mutation: {
+    createUser(parent, args, ctx, info) {
+      console.log(args);
     },
   },
 
