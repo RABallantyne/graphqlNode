@@ -1,5 +1,5 @@
 import { GraphQLServer } from 'graphql-yoga';
-import { users, posts, me, post } from '../data/data';
+import { users, posts, me, post, comments } from '../data/data';
 
 // Scalar types: String, Boolean, Int, Float, ID
 
@@ -11,6 +11,7 @@ const typeDefs = `
     me: User!
     post: Post!
     author: [User!]!
+    comments:[Comment!]!
   }
 
   type Comment {
@@ -26,6 +27,7 @@ const typeDefs = `
     email: String!
     age: Int
     posts: [Post!]!
+    comments: [Comment!]!
   }
 
   type Post {
@@ -34,6 +36,7 @@ const typeDefs = `
     body: String!
     published: Boolean!
     author: User!
+    comments: [Comment!]!
   }
 `;
 
@@ -69,6 +72,21 @@ const resolvers = {
         return user.name.toLowerCase().includes(args.query.toLowerCase());
       });
     },
+    comments(parent, args, ctx, info) {
+      return comments;
+    },
+  },
+  Comment: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author;
+      });
+    },
+    post(parent, args, ctx, info) {
+      return posts.find((post) => {
+        return post.id === parent.post;
+      });
+    },
   },
   Post: {
     author(parent, args, ctx, info) {
@@ -76,11 +94,21 @@ const resolvers = {
         return user.id === parent.author;
       });
     },
+    comments(parent, args, ctx, info) {
+      return comments.filter((comment) => {
+        return comment.post === parent.id;
+      });
+    },
   },
   User: {
     posts(parent, args, ctx, info) {
       return posts.filter((post) => {
         return post.author === parent.id;
+      });
+    },
+    comments(parent, args, ctx, info) {
+      return comments.filter((comment) => {
+        return comment.author === parent.id;
       });
     },
   },

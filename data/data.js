@@ -59,4 +59,25 @@ const users = [
   },
 ];
 
-export { users, posts, me, post };
+const comments = [
+  {
+    id: 10,
+    content: 'what a post!',
+    author: '1',
+    post: '1',
+  },
+  {
+    id: 11,
+    content: 'poop post!',
+    author: '2',
+    post: '1',
+  },
+  {
+    id: 12,
+    content: 'pee peeeee post!',
+    author: '3',
+    post: '3',
+  },
+];
+
+export { users, posts, me, post, comments };
