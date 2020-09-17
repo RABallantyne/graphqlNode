@@ -19,21 +19,21 @@ const posts = [
     title: 'A post about things',
     body: 'qqqqqqq?',
     published: true,
-    author: '1',
+    author: '10',
   },
   {
     id: '2',
     title: 'A different post about other things',
     body: 'I really do care, and you should too weee',
     published: false,
-    author: '2',
+    author: '20',
   },
   {
     id: '3',
     title: 'Zimbabwe is a great country!',
     body: 'Pretty sure there are Africans there or something like that weeee',
     published: true,
-    author: '2',
+    author: '20',
   },
 ];
 
