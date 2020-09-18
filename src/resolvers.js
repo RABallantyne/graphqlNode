@@ -1,4 +1,5 @@
 import { users, posts, me, post, comments } from '../data/data';
+import { v4 as uuidv4 } from 'uuid';
 
 //Resolvers
 const resolvers = {
@@ -43,11 +44,20 @@ const resolvers = {
       if (emailTaken) {
         throw new Error('Email taken');
       }
+
+      const one = {
+        name: 'Colorado',
+        country: 'USA',
+      };
+
+      const two = {
+        population: 2000000,
+        ...one,
+      };
+
       const user = {
         id: uuidv4(),
-        name: args.name,
-        email: args.email,
-        age: args.age,
+        ...args,
       };
       users.push(user);
       return user;
@@ -62,10 +72,7 @@ const resolvers = {
       }
       const post = {
         id: uuidv4(),
-        title: args.title,
-        body: args.body,
-        published: args.published,
-        author: args.author,
+        ...args,
       };
       posts.push(post);
       return post;
@@ -81,9 +88,7 @@ const resolvers = {
       }
       const comment = {
         id: uuidv4(),
-        content: args.content,
-        author: args.author,
-        post: args.post,
+        ...args,
       };
       comments.push(comment);
       return comment;
