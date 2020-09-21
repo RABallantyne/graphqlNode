@@ -39,25 +39,15 @@ const resolvers = {
   Mutation: {
     createUser(parent, args, ctx, info) {
       const emailTaken = users.some((user) => {
-        return user.email === args.email;
+        return user.email === args.data.email;
       });
       if (emailTaken) {
         throw new Error('Email taken');
       }
 
-      const one = {
-        name: 'Colorado',
-        country: 'USA',
-      };
-
-      const two = {
-        population: 2000000,
-        ...one,
-      };
-
       const user = {
         id: uuidv4(),
-        ...args,
+        ...args.data,
       };
       users.push(user);
       return user;
@@ -65,30 +55,30 @@ const resolvers = {
 
     createPost(parent, args, ctx, info) {
       const userExists = users.some((user) => {
-        return user.id === args.author;
+        return user.id === args.data.author;
       });
       if (!userExists) {
         throw new Error('User not found');
       }
       const post = {
         id: uuidv4(),
-        ...args,
+        ...args.data,
       };
       posts.push(post);
       return post;
     },
 
     createComment(parent, args, ctx, info) {
-      const userExists = users.some((user) => user.id === args.author);
+      const userExists = users.some((user) => user.id === args.data.author);
       const postExists = posts.some(
-        (post) => post.id === args.post && post.published
+        (post) => post.id === args.data.post && post.published
       );
       if (!postExists || !userExists) {
         throw new Error("Something isn't right homeboy");
       }
       const comment = {
         id: uuidv4(),
-        ...args,
+        ...args.data,
       };
       comments.push(comment);
       return comment;
