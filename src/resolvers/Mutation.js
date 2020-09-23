@@ -98,7 +98,6 @@ const Mutation = {
     if (!post) {
       throw new Error('Post does not exist');
     }
-
     if (typeof data.title === 'string') {
       post.title = data.title;
     }
@@ -136,6 +135,18 @@ const Mutation = {
     }
     const deletedComment = db.comments.splice(commentIndex, 1);
     return deletedComment[0];
+  },
+
+  updateComment(parent, args, { db }, info) {
+    const { id, data } = args;
+    const comment = db.comments.find((comment) => comment.id === id);
+    if (!comment) {
+      throw new Error('Comment does not exist');
+    }
+    if (typeof data.content === 'string') {
+      comment.content = data.content;
+    }
+    return comment;
   },
 };
 
