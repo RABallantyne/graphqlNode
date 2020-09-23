@@ -49,25 +49,25 @@ let users = [
 
 let comments = [
   {
-    id: 110,
+    id: '110',
     content: 'what a post!',
     author: '10',
     post: '1',
   },
   {
-    id: 111,
+    id: '111',
     content: 'poop post!',
     author: '20',
     post: '1',
   },
   {
-    id: 112,
+    id: '112',
     content: 'pee peeeee post!',
     author: '30',
     post: '3',
   },
   {
-    id: 113,
+    id: '113',
     content: 'wonky doo dah!',
     author: '20',
     post: '2',
@@ -175,6 +175,7 @@ const resolvers = {
       }
 
       const deletedPost = posts.splice(postIndex, 1);
+
       posts = posts.filter((post) => {
         return post.id !== args.id;
       });
@@ -198,6 +199,22 @@ const resolvers = {
       };
       comments.push(comment);
       return comment;
+    },
+    deleteComment(parent, args, ctx, info) {
+      const commentIndex = comments.findIndex(
+        (comment) => comment.id === args.id
+      );
+
+      if (commentIndex === -1) {
+        throw new Error('comment not found');
+      }
+
+      const deletedComment = comments.splice(commentIndex, 1);
+
+      comments = comments.filter((comment) => {
+        return comment.id !== args.id;
+      });
+      return deletedComment[0];
     },
   },
 
