@@ -12,9 +12,12 @@ const typeDefs = `
   }
 
   type Mutation {
-    createUser(data: CreateUserInput): User!
-    createPost(data: CreatePostInput): Post!
+    createUser(data: CreateUserInput!): User!
+    deleteUser(id: ID!):User!
+    createPost(data: CreatePostInput!): Post!
+    deletePost(id:ID!): Post!
     createComment(data: CreateCommentInput): Comment!
+
   }
 
   input CreateUserInput {
@@ -26,6 +29,7 @@ const typeDefs = `
   input CreatePostInput {
     title: String!
     body: String!
+    published: Boolean!
     author: ID!
   }
 

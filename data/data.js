@@ -6,14 +6,14 @@ const me = {
   age: 48,
 };
 
-const post = {
+let post = {
   id: 'post-1',
   title: 'A really interesting post',
   body: 'lorem ipsum blah blah blah weeeeeee haaaaaaaa derrrr',
   published: false,
 };
 
-const posts = [
+let posts = [
   {
     id: '1',
     title: 'A post about things',
@@ -39,7 +39,7 @@ const posts = [
 
 //demo user data
 
-const users = [
+let users = [
   {
     id: '10',
     name: 'Rob',
@@ -59,7 +59,7 @@ const users = [
   },
 ];
 
-const comments = [
+let comments = [
   {
     id: 110,
     content: 'what a post!',
