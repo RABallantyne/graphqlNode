@@ -160,7 +160,6 @@ const resolvers = {
         id: uuidv4(),
         ...args.data,
       };
-
       posts.push(post);
       return post;
     },
@@ -169,16 +168,10 @@ const resolvers = {
       const postIndex = posts.findIndex((post) => {
         return post.id === args.id;
       });
-
       if (postIndex === -1) {
         throw new Error('no post with that id.');
       }
-
       const deletedPost = posts.splice(postIndex, 1);
-
-      posts = posts.filter((post) => {
-        return post.id !== args.id;
-      });
       comments = comments.filter((comment) => {
         return comment.post !== args.id;
       });
@@ -200,20 +193,15 @@ const resolvers = {
       comments.push(comment);
       return comment;
     },
+
     deleteComment(parent, args, ctx, info) {
       const commentIndex = comments.findIndex(
         (comment) => comment.id === args.id
       );
-
       if (commentIndex === -1) {
         throw new Error('comment not found');
       }
-
       const deletedComment = comments.splice(commentIndex, 1);
-
-      comments = comments.filter((comment) => {
-        return comment.id !== args.id;
-      });
       return deletedComment[0];
     },
   },
