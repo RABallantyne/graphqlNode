@@ -10,7 +10,7 @@ const posts = [
     id: '2',
     title: 'A different post about other things',
     body: 'I really do care, and you should too weee',
-    published: true,
+    published: false,
     author: '20',
   },
   {
