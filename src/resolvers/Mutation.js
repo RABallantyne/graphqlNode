@@ -75,24 +75,38 @@ const Mutation = {
       ...args.data,
     };
     db.posts.push(post);
-    if (post.published === true) {
-      pubsub.publish(`post`, { post });
+    if (post.published) {
+      pubsub.publish(`post`, {
+        post: {
+          mutation: 'CREATED',
+          data: post,
+        },
+      });
     }
     return post;
   },
 
-  deletePost(parent, args, { db }, info) {
+  deletePost(parent, args, { db, pubsub }, info) {
     const postIndex = db.posts.findIndex((post) => {
       return post.id === args.id;
     });
     if (postIndex === -1) {
       throw new Error('no post with that id.');
     }
-    const deletedPost = db.posts.splice(postIndex, 1);
+    const [post] = db.posts.splice(postIndex, 1);
     db.comments = db.comments.filter((comment) => {
       return comment.post !== args.id;
     });
-    return deletedPost[0];
+
+    if (post.published) {
+      pubsub.publish('post', {
+        post: {
+          mutation: 'DELETED',
+          data: post,
+        },
+      });
+    }
+    return post;
   },
 
   updatePost(parent, args, { db }, info) {
